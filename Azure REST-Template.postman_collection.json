@@ -1,0 +1,343 @@
+{
+	"info": {
+		"_postman_id": "793aa484-1b70-4cc8-95f2-d2a378fd357b",
+		"name": "Azure REST-Template",
+		"description": "Azure Media Services v3 API Collection. Last Modified Date: 08/09/19 ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Azure-Get Security Center Alert",
+			"item": [
+				{
+					"name": "API doc:https://docs.microsoft.com/en-us/rest/api/securitycenter/alerts/list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9975add4-5682-46c8-8291-87e02700863b",
+								"exec": [
+									"var json = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"AccessToken\", json.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Keep-Alive",
+								"value": "true"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"description": "This is always set to client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "3cac99a9-3****************",
+									"description": "The Client ID for your AAD application",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "3cac99a9-3****************",
+									"description": "The Client Secret (key) for your AAD application Service principal. This is URL Encoded on the wire.",
+									"type": "text"
+								},
+								{
+									"key": "resource",
+									"value": "https://management.core.windows.net/",
+									"description": "Normally this is https://management.core.windows.net/ \nIt can vary based on the specific Azure Cloud you are using. \nFor Gov Cloud, China, Germany or other soverign cloud, please check the appropriate Azure management API endpoint URL settings in the documentation. ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://login.microsoftonline.com/{{Tenant ID}}/oauth2/token",
+							"protocol": "https",
+							"host": [
+								"login",
+								"microsoftonline",
+								"com"
+							],
+							"path": [
+								"{{Tenant ID}}",
+								"oauth2",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Azure Portal Bearer Token- x-www-form-urlencoded",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4faed78d-5cbf-4e33-943e-40e24dc1c7ba",
+								"exec": [
+									"var json = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"AccessToken\", json.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Keep-Alive",
+								"value": "true"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"description": "This is always set to client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "3cac99a9-3****************",
+									"description": "The Client ID for your AAD application",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "3cac99a9-3****************",
+									"description": "The Client Secret (key) for your AAD application Service principal. This is URL Encoded on the wire.",
+									"type": "text"
+								},
+								{
+									"key": "resource",
+									"value": "https://management.core.windows.net/",
+									"description": "Normally this is https://management.core.windows.net/ \nIt can vary based on the specific Azure Cloud you are using. \nFor Gov Cloud, China, Germany or other soverign cloud, please check the appropriate Azure management API endpoint URL settings in the documentation. ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://login.microsoftonline.com/{{Tenant ID}}/oauth2/token",
+							"protocol": "https",
+							"host": [
+								"login",
+								"microsoftonline",
+								"com"
+							],
+							"path": [
+								"{{Tenant ID}}",
+								"oauth2",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Alert List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://management.azure.com/subscriptions/{{subscriptions ID}}/providers/Microsoft.Security/alerts?api-version=2019-01-01",
+							"protocol": "https",
+							"host": [
+								"management",
+								"azure",
+								"com"
+							],
+							"path": [
+								"subscriptions",
+								"{{subscriptions ID}}",
+								"providers",
+								"Microsoft.Security",
+								"alerts"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2019-01-01"
+								},
+								{
+									"key": "$filter",
+									"value": "Properties/DetectedTimeUtc ge 2020-04-02T07:01:00.4530000Z and Properties/DetectedTimeUtc le 2020-09-02T19:00:49.4530000Z and Properties/AlertDisplayName eq 'Traffic detected from IP addresses recommended for blocking'",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Azure Sentinel",
+			"item": [
+				{
+					"name": "API doc:https://docs.microsoft.com/en-us/rest/api/securityinsights/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Micrsoft API explorer:https://docs.microsoft.com/en-us/rest/api/securityinsights/incidents/list#code-try-0",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://docs.microsoft.com/en-us/rest/api/securityinsights/incidents/list#code-try-0",
+							"protocol": "https",
+							"host": [
+								"docs",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"en-us",
+								"rest",
+								"api",
+								"securityinsights",
+								"incidents",
+								"list"
+							],
+							"hash": "code-try-0"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get incident",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://management.azure.com/subscriptions/{{subscriptions ID}}/resourceGroups/d3uat/providers/Microsoft.OperationalInsights/workspaces/SentinelResearch/providers/Microsoft.SecurityInsights/incidents?api-version=2020-01-01",
+							"protocol": "https",
+							"host": [
+								"management",
+								"azure",
+								"com"
+							],
+							"path": [
+								"subscriptions",
+								"{{subscriptions ID}}",
+								"resourceGroups",
+								"d3uat",
+								"providers",
+								"Microsoft.OperationalInsights",
+								"workspaces",
+								"SentinelResearch",
+								"providers",
+								"Microsoft.SecurityInsights",
+								"incidents"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2020-01-01"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{AccessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "3847f7eb-b187-4edd-99e6-4fbbceca239b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "137287f7-9f2a-4868-8e44-bfac81d9a889",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "f5f29589-e9e9-40bf-a718-93df7b37e41b",
+			"key": "ARM_API_ENDPOINT",
+			"value": "management.azure.com",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
